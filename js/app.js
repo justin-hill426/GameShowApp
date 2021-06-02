@@ -11,10 +11,11 @@ const userKeyboard = document.querySelector('#qwerty');
 
 //get the element representing the title screen
 const overlay = document.querySelector('#overlay');
+let game = new Game();
 
 
-const game = new Game();
 startGameButton.addEventListener('click', () => {
+  game = new Game();
   game.startGame();
 });
 
