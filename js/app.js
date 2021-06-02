@@ -17,6 +17,5 @@ startGameButton.addEventListener('click', () => {
 });
 
 userKeyboard.addEventListener('click', (e)  => {
-  const letterButton = e.target;
-  game.handleUserInteraction(letterButton.textContent);
+  game.handleUserInteraction(e);
 });

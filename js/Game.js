@@ -16,11 +16,12 @@
     */
     createPhrases() {
       const slogans = [
+        'H',
         'Just do it',
-        "What's in your wallet",
+        "Whats in your wallet",
         'The Happiest Place on Earth',
         'The snack that smiles back',
-        "Gotta catch 'em all",
+        "Gotta catch em all",
         'Think Different',
         'Breakfast of Champions'
       ];
@@ -55,10 +56,13 @@
     */
     checkForWin() {
       const letterElements = document.querySelectorAll('li.hide');
+      console.log(letterElements);
       if(letterElements.length === 0) {
-        gameOver(true);
+        this.gameOver(true);
       }
     };
+
+
 
     /**
     * Increases the value of the missed property
@@ -70,9 +74,19 @@
       const heartElement = document.querySelector('.tries img[src="images/liveHeart.png"]');
       heartElement.src = 'images/lostHeart.png';
       if(this.missed === 5) {
-        gameOver(false);
+        this.gameOver(false);
       }
     };
+
+    /**
+    * Reset Hearts
+    */
+    resetHearts() {
+      const heartElements = document.querySelectorAll('.tries img[src="images/lostHeart.png"]');
+      heartElements.forEach((heart, i) => {
+        heart.src = 'images/liveHeart.png';
+      });
+    }
 
     /**
     * Displays game over message
@@ -81,35 +95,34 @@
     gameOver(gameWon) {
       //display overlay
       const overlay = document.querySelector('#overlay');
-      const overlayH1 =
+      const overlayH1 = document.querySelector('#game-over-message');
       overlay.style.display = 'block';
       overlay.classList.remove('start');
       if(gameWon) {
         overlay.classList.add('win');
+        overlayH1.innerHTML = "You Won!";
       }
       else {
         overlay.classList.add('lose');
+        overlayH1.innerHTML = "You Lost!";
       }
-      document.querySelector('#game-over-message').classList.
-
-      if(gameWon) {
-        //display winning message
-      }
-      else {
-        //display losing message
-      }
+      this.activePhrase.removePhraseFromDisplay();
+      this.resetHearts();
     };
 
     /**
     * Does some brunt work to handle the UI
-    * @param  {string} Letter to be used
+    * @param  {event} Letter event to be used
     */
     handleUserInteraction(letter) {
-      if(this.activePhrase.checkLetter(letter)) {
-        this.activePhrase.showMatchedLetter(letter);
+      letter.disabled = true;
+      if(this.activePhrase.checkLetter(letter.target)) {
+        this.activePhrase.showMatchedLetter(letter.target);
+        letter.classList.add('chosen');
         this.checkForWin();
       }
       else {
+        letter.classList.add('wrong');
         this.removeLife();
       }
     }

@@ -26,6 +26,18 @@
    }
 
    /**
+   * Remove phrase from display
+   */
+   removePhraseFromDisplay() {
+     const phraseList = document.querySelector('#phrase ul');
+     const phraseListLetters = phraseList.children;
+     //need to use the spread operator since the children are not an array yet
+     [...phraseListLetters].forEach((letterElement, i) => {
+       phraseList.removeChild(letterElement);
+     });
+   }
+
+   /**
   * Displays passed letter on screen after a match is found
   * @param (string) letter - Letter to display
   */
