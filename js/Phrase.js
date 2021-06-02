@@ -20,6 +20,7 @@
        else {
          newLetter.className = `space`;
        }
+       newLetter.innerHTML = this.phrase[i];
        phraseList.append(newLetter);
      }
    }
@@ -29,8 +30,13 @@
   * @param (string) letter - Letter to display
   */
   showMatchedLetter(letter) {
-    const letterElements = document.querySelector('li.hide');
-    console.log(letterElements);
+    const letterElements = document.querySelectorAll('li.hide');
+    letterElements.forEach((letterElement, i) => {
+      if(letterElement.classList.contains(letter)) {
+        letterElement.classList.remove('hide');
+        letterElement.classList.add('show');
+      }
+    });
   }
 
    /**

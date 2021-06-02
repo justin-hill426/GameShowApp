@@ -49,10 +49,68 @@
     }
 
     /**
+    * Checks for winning move
+    * @return {boolean} True if game has been won, false if game wasn't
+    won
+    */
+    checkForWin() {
+      const letterElements = document.querySelectorAll('li.hide');
+      if(letterElements.length === 0) {
+        gameOver(true);
+      }
+    };
+
+    /**
+    * Increases the value of the missed property
+    * Removes a life from the scoreboard
+    * Checks if player has remaining lives and ends game if player is out
+    */
+    removeLife() {
+      this.missed += 1;
+      const heartElement = document.querySelector('.tries img[src="images/liveHeart.png"]');
+      heartElement.src = 'images/lostHeart.png';
+      if(this.missed === 5) {
+        gameOver(false);
+      }
+    };
+
+    /**
+    * Displays game over message
+    * @param {boolean} gameWon - Whether or not the user won the game
+    */
+    gameOver(gameWon) {
+      //display overlay
+      const overlay = document.querySelector('#overlay');
+      const overlayH1 =
+      overlay.style.display = 'block';
+      overlay.classList.remove('start');
+      if(gameWon) {
+        overlay.classList.add('win');
+      }
+      else {
+        overlay.classList.add('lose');
+      }
+      document.querySelector('#game-over-message').classList.
+
+      if(gameWon) {
+        //display winning message
+      }
+      else {
+        //display losing message
+      }
+    };
+
+    /**
     * Does some brunt work to handle the UI
     * @param  {string} Letter to be used
     */
     handleUserInteraction(letter) {
-      return this.activePhrase.checkLetter(letter);
+      if(this.activePhrase.checkLetter(letter)) {
+        this.activePhrase.showMatchedLetter(letter);
+        this.checkForWin();
+      }
+      else {
+        this.removeLife();
+      }
     }
  }
