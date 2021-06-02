@@ -23,6 +23,10 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.main-container {
+  background: #bfbbbb;
+}
+
 body {
   justify-content: space-evenly;
   flex-direction: column;
@@ -63,6 +67,8 @@ button {
 #btn__reset {
 	width: 200px;
 	margin: 0 auto;
+  background: #04AA6D;
+  color: #ffffff;
 }
 
 .main-container {
@@ -131,14 +137,14 @@ button {
 }
 
 .chosen {
-  background: #3a3f58;
+  background: #04AA6D;
   border-radius: 5px;
   font-size: var(--font-size-medium);
   color: #FFFFFF;
 }
 
 .wrong {
-  background: #f7a964;
+  background: #911616;
   color: #FFFFFF;
 }
 
@@ -175,8 +181,8 @@ button {
   border-radius: 5px;
 }
 
-.title {
-  color: #FFF;
+.title, .header {
+  color: #911616;
 }
 
 .start {

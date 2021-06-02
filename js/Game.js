@@ -2,7 +2,6 @@
  * Project 4 - OOP Game App
  * Game.js */
 
-
  class Game {
    constructor() {
      this.missed = 0;
@@ -16,7 +15,6 @@
     */
     createPhrases() {
       const slogans = [
-        'H',
         'Just do it',
         "Whats in your wallet",
         'The Happiest Place on Earth',
@@ -56,7 +54,6 @@
     */
     checkForWin() {
       const letterElements = document.querySelectorAll('li.hide');
-      console.log(letterElements);
       if(letterElements.length === 0) {
         this.gameOver(true);
       }
@@ -86,6 +83,24 @@
       heartElements.forEach((heart, i) => {
         heart.src = 'images/liveHeart.png';
       });
+      this.missed = 0;
+    }
+
+    /**
+    * Reset keyboard
+    */
+    resetKeyboard() {
+      const usedKeys = [...document.querySelectorAll('.key.chosen'), ...document.querySelectorAll('.key.wrong')];
+      usedKeys.forEach((key, i) => {
+        if(key.classList.contains('chosen')) {
+          key.classList.remove('chosen');
+        }
+        else if(key.classList.contains('wrong')) {
+          key.classList.remove('wrong');
+        }
+        key.disabled = false;
+      });
+
     }
 
     /**
@@ -108,6 +123,8 @@
       }
       this.activePhrase.removePhraseFromDisplay();
       this.resetHearts();
+      this.resetKeyboard();
+      document.querySelector('#btn__reset').textContent = "Play Again";
     };
 
     /**
@@ -115,15 +132,59 @@
     * @param  {event} Letter event to be used
     */
     handleUserInteraction(letter) {
-      letter.disabled = true;
-      if(this.activePhrase.checkLetter(letter.target)) {
-        this.activePhrase.showMatchedLetter(letter.target);
-        letter.classList.add('chosen');
-        this.checkForWin();
+
+      //if input is from mouseclick
+      if(letter.tagName === 'BUTTON') {
+        if(this.activePhrase.checkLetter(letter.textContent)) {
+          this.activePhrase.showMatchedLetter(letter.textContent);
+          letter.classList.add('chosen');
+          this.checkForWin();
+        }
+        else {
+          letter.classList.add('wrong');
+          this.removeLife();
+        }
+        letter.disabled = true;
       }
+      //if the input is from the keyboard
       else {
-        letter.classList.add('wrong');
-        this.removeLife();
+        if(this.isValidInput(letter.key)) {
+          //return button of the corresponding keyboard input
+          const keyButton = this.findHTMLButtonUsingKey(letter.key)
+          if(this.activePhrase.checkLetter(letter.key)) {
+            this.activePhrase.showMatchedLetter(letter.key);
+            keyButton.classList.add('chosen');
+            this.checkForWin();
+          }
+          else {
+            keyButton.classList.add('wrong');
+            this.removeLife();
+          }
+          keyButton.disabled = true;
+        }
+      }
+
+    }
+
+    /**
+    * Find a the key corresponding to the keyboard input
+    * @param {string} letter inputted by the user on the userKeyboard
+    * @return {button} the button that has the same textContent as the input key
+    */
+    findHTMLButtonUsingKey(keyLetter) {
+      const keys = document.querySelectorAll('.key');
+      for(let i = 0; i < keys.length; i++) {
+        if(keys[i].textContent === keyLetter) {
+          return keys[i];
+        }
       }
     }
+
+    /**
+    * Check if the keyboard input is valid input - if the character is from a - z
+    */
+    isValidInput(keyLetter) {
+      return /^[a-z]+$/.test(keyLetter);
+    }
+
  }

@@ -9,6 +9,8 @@ const startGameButton = document.querySelector('#btn__reset');
 //ui keyboard
 const userKeyboard = document.querySelector('#qwerty');
 
+//get the element representing the title screen
+const overlay = document.querySelector('#overlay');
 
 
 const game = new Game();
@@ -16,6 +18,33 @@ startGameButton.addEventListener('click', () => {
   game.startGame();
 });
 
+
+
 userKeyboard.addEventListener('click', (e)  => {
-  game.handleUserInteraction(e);
+  if(gameInProgress()) {
+    if(e.target.tagName === 'BUTTON') {
+      game.handleUserInteraction(e.target);
+    }
+  }
 });
+
+document.addEventListener('keyup', e => {
+  if(gameInProgress()) {
+    game.handleUserInteraction(e);
+  }
+  else {
+    if(e.key === "Enter") {
+      game.startGame();
+    }
+  }
+});
+
+
+
+/**
+* Checks if the game is in progress
+* @return {Boolean}
+*/
+function gameInProgress() {
+  return overlay.style.display === 'none';
+}

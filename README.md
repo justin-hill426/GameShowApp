@@ -11,3 +11,12 @@ A player continues to select letters until they guess the phrase (and win), or m
 If the player completes the phrase before they run out of guesses, a winning screen appears. If the player guesses incorrectly five times, a losing screen appears.
 
 A player can guess a letter only once. After they’ve guessed a letter, the program will disable that letter on the onscreen keyboard.
+
+
+
+STYLE CHANGES:
+ Changed Background color to a more fitting light grey.
+ Changed start/replay button to light green.
+ Changed the color of valid input letters and wrong input letters to green/red respectively
+ Added check using regex to make sure the keyboard input from the user is an underscore alphabetic character
+ Added functionality to start/restart the game with the enter key.
