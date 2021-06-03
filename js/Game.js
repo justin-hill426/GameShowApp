@@ -7,6 +7,7 @@
      this.missed = 0;
      this.phrases = [];
      this.activePhrase = null;
+     this.letterSet = new Set();
      this.createPhrases();
    }
    /**
@@ -148,7 +149,9 @@
       }
       //if the input is from the keyboard
       else {
+
         if(this.isValidInput(letter.key)) {
+          this.letterSet.add(letter.key);
           //return button of the corresponding keyboard input
           const keyButton = this.findHTMLButtonUsingKey(letter.key)
           if(this.activePhrase.checkLetter(letter.key)) {
@@ -184,7 +187,7 @@
     * Check if the keyboard input is valid input - if the character is from a - z
     */
     isValidInput(keyLetter) {
-      return /^[a-z]+$/.test(keyLetter);
+      return /^[a-z]+$/.test(keyLetter) && !this.letterSet.has(keyLetter);
     }
 
  }
