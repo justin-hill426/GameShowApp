@@ -11,12 +11,21 @@ const userKeyboard = document.querySelector('#qwerty');
 
 //get the element representing the title screen
 const overlay = document.querySelector('#overlay');
-let game = new Game();
 
+let game;
 
 startGameButton.addEventListener('click', () => {
   game = new Game();
   game.startGame();
+});
+
+document.addEventListener('keyup', e => {
+  if(!gameInProgress()) {
+    if(e.key === 'Enter') {
+      game = new Game();
+      game.startGame();
+    }
+  }
 });
 
 
@@ -24,19 +33,14 @@ startGameButton.addEventListener('click', () => {
 userKeyboard.addEventListener('click', (e)  => {
   if(gameInProgress()) {
     if(e.target.tagName === 'BUTTON') {
-      game.handleUserInteraction(e.target);
+      game.handleInteraction(e.target);
     }
   }
 });
 
 document.addEventListener('keyup', e => {
   if(gameInProgress()) {
-    game.handleUserInteraction(e);
-  }
-  else {
-    if(e.key === "Enter") {
-      game.startGame();
-    }
+    game.handleInteraction(e);
   }
 });
 

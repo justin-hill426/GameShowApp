@@ -56,7 +56,7 @@
     checkForWin() {
       const letterElements = document.querySelectorAll('li.hide');
       if(letterElements.length === 0) {
-        this.gameOver(true);
+        return true;
       }
     };
 
@@ -115,10 +115,12 @@
       overlay.style.display = 'block';
       overlay.classList.remove('start');
       if(gameWon) {
+        overlay.classList.remove('lose');
         overlay.classList.add('win');
         overlayH1.innerHTML = "You Won!";
       }
       else {
+        overlay.classList.remove('win');
         overlay.classList.add('lose');
         overlayH1.innerHTML = "You Lost!";
       }
@@ -132,38 +134,42 @@
     * Does some brunt work to handle the UI
     * @param  {event} Letter event to be used
     */
-    handleUserInteraction(letter) {
+    handleInteraction(letter) {
 
       //if input is from mouseclick
       if(letter.tagName === 'BUTTON') {
+        letter.disabled = true;
         if(this.activePhrase.checkLetter(letter.textContent)) {
           this.activePhrase.showMatchedLetter(letter.textContent);
           letter.classList.add('chosen');
-          this.checkForWin();
+          if(this.checkForWin()) {
+            this.gameOver(true);
+          }
         }
         else {
           letter.classList.add('wrong');
           this.removeLife();
         }
-        letter.disabled = true;
       }
       //if the input is from the keyboard
       else {
 
         if(this.isValidInput(letter.key)) {
+          letter.disabled = true;
           this.letterSet.add(letter.key);
           //return button of the corresponding keyboard input
           const keyButton = this.findHTMLButtonUsingKey(letter.key)
           if(this.activePhrase.checkLetter(letter.key)) {
             this.activePhrase.showMatchedLetter(letter.key);
             keyButton.classList.add('chosen');
-            this.checkForWin();
+            if(this.checkForWin()) {
+              this.gameOver(true);
+            }
           }
           else {
             keyButton.classList.add('wrong');
             this.removeLife();
           }
-          keyButton.disabled = true;
         }
       }
 
